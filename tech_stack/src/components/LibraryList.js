@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
-import { ListView } from 'react-native';
+import { FlatList, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import ListItem from './ListItem';
 
 class LibraryList extends Component {
-  componentWillMount() {
-    const ds = new ListView.dataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    })
-  }
 
-  renderList() {
-    return this.props.libraries.map(lib => <li>lib</li>)
+  renderItem({item}) {
+    return <ListItem library={item}/>
   }
 
   render() {
-    return(
-      <View>
-        <ul>
-          {this.renderList()}
-        </ul>
-      </View>
+    return (
+      <ScrollView>
+        <FlatList
+          data={this.props.libraries}
+          renderItem={this.renderItem}
+          keyExtractor={(item, idx) => item.id}
+        />
+      </ScrollView>
     );
   }
 }
